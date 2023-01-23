@@ -11,8 +11,20 @@ SELECT
 FROM products
 `);
 
-function listProducts () {
+const search_products = db.prepare(/*sql*/ `
+SELECT
+  id, 
+  name
+FROM products
+WHERE name LIKE ?
+`);
+
+function listProducts() {
   return select_products.all();
 }
 
-module.exports = { listProducts }
+function searchProducts(product) {
+  return search_products.all("%" + product + "%");
+}
+
+module.exports = { listProducts, searchProducts };
